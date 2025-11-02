@@ -1,7 +1,7 @@
 FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
 
 ARG VENV_NAME="cosyvoice"
-ENV VENV=$VENV_NAME
+ENV VENV=/workspace/$VENV_NAME
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 ENV DEBIAN_FRONTEN=noninteractive
@@ -36,7 +36,7 @@ RUN conda config --add channels conda-forge && \
 
 RUN conda create -y -n ${VENV} python=3.10
 ENV CONDA_DEFAULT_ENV=${VENV}
-ENV PATH /opt/conda/bin:/opt/conda/envs/${VENV}/bin:$PATH
+ENV PATH /opt/conda/bin:/opt/conda/envs/${VENV_NAME}/bin:$PATH
 
 WORKDIR /workspace
 
