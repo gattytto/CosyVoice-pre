@@ -13,37 +13,37 @@ RUN apt-get install -y git build-essential curl wget ffmpeg unzip git git-lfs so
     apt-get clean && \
     git lfs install
 
-# ==================================================================
-# conda install and conda forge channel as default
-# ------------------------------------------------------------------
-# Install miniforge
-RUN wget --quiet https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O ~/miniforge.sh && \
-    /bin/bash ~/miniforge.sh -b -p /opt/conda && \
-    rm ~/miniforge.sh && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo "source /opt/conda/etc/profile.d/conda.sh" >> /opt/nvidia/entrypoint.d/100.conda.sh && \
-    echo "source /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate $VENV" >> /opt/nvidia/entrypoint.d/110.conda_default_env.sh && \
-    echo "conda activate $VENV" >> $HOME/.bashrc
+# # ==================================================================
+# # conda install and conda forge channel as default
+# # ------------------------------------------------------------------
+# # Install miniforge
+# RUN wget --quiet https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O ~/miniforge.sh && \
+#     /bin/bash ~/miniforge.sh -b -p /opt/conda && \
+#     rm ~/miniforge.sh && \
+#     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+#     echo "source /opt/conda/etc/profile.d/conda.sh" >> /opt/nvidia/entrypoint.d/100.conda.sh && \
+#     echo "source /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+#     echo "conda activate $VENV" >> /opt/nvidia/entrypoint.d/110.conda_default_env.sh && \
+#     echo "conda activate $VENV" >> $HOME/.bashrc
 
-ENV PATH /opt/conda/bin:$PATH
+# ENV PATH /opt/conda/bin:$PATH
 
-RUN conda config --add channels conda-forge && \
-    conda config --set channel_priority strict
-# ------------------------------------------------------------------
-# ~conda
-# ==================================================================
+# RUN conda config --add channels conda-forge && \
+#     conda config --set channel_priority strict
+# # ------------------------------------------------------------------
+# # ~conda
+# # ==================================================================
 
-RUN conda create -y -n ${VENV_NAME} python=3.10
-ENV CONDA_DEFAULT_ENV=${VENV_NAME}
-ENV PATH /opt/conda/bin:/opt/conda/envs/${VENV_NAME}/bin:$PATH
+# RUN conda create -y -n ${VENV_NAME} python=3.10
+# ENV CONDA_DEFAULT_ENV=${VENV_NAME}
+# ENV PATH /opt/conda/bin:/opt/conda/envs/${VENV_NAME}/bin:$PATH
 
-WORKDIR /workspace
+# WORKDIR /workspace
 
-ENV PYTHONPATH="${PYTHONPATH}:/workspace/CosyVoice:/workspace/CosyVoice/third_party/Matcha-TTS"
+# ENV PYTHONPATH="${PYTHONPATH}:/workspace/CosyVoice:/workspace/CosyVoice/third_party/Matcha-TTS"
 
-COPY requirements.txt requirements.txt
-RUN conda install -y -c conda-forge pynini==2.1.5
-RUN pip install --pre torch torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128 && \
-    pip install -r requirements.txt 
-WORKDIR /workspace/CosyVoice
+# COPY requirements.txt requirements.txt
+# RUN conda install -y -c conda-forge pynini==2.1.5
+# RUN pip install --pre torch torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128 && \
+#     pip install -r requirements.txt 
+# WORKDIR /workspace/CosyVoice
