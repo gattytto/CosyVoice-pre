@@ -45,6 +45,5 @@ ENV PYTHONPATH="${PYTHONPATH}:/workspace/CosyVoice:/workspace/CosyVoice/third_pa
 COPY requirements.txt requirements.txt
 RUN conda install -y -c conda-forge pynini==2.1.5
 RUN pip install --pre torch torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128 && \
-    pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-RUN rm -rf CosyVoice
+    pip install -r requirements.txt 
 WORKDIR /workspace/CosyVoice
